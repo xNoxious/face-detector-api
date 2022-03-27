@@ -11,7 +11,7 @@ To run:
 3. Run scripts from controllers/database.mssql
 4. Replace knex code from:
 ```
-  const db = knex({
+const db = knex({
     client: 'pg',
     connection: {
         connectionString: process.env.DATABASE_URL,
