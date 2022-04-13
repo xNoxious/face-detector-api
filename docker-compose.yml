@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+
+  # Backend
+  face-detector-api:
+    container_name: backend
+    build: ./
+    volumes:
+      - ./:/usr/src/face-detector-api
+      - /usr/src/face-detector-api/node_modules/
+    command: npm start
+    working_dir: /usr/src/face-detector-api
+    ports:
+      - "3000:3000"
+    environment:
+      POSTGRES_URI: postgres://admin:password@postgres:5432/face-detector
+      REDIS_URI: redis://redis:6379
+      API_KEY_CLARIFAI: "Key 41311e22d870482386a1f02f3066232b"
+      JWT_SECRET: yOure4w1zz4rdH4rrY!
+
+  # Postgres
+  postgres: 
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_URL: postgres://admin:password@localhost:5432/face-detector
+      POSTGRES_DB: face-detector
+      POSTGRES_HOST: postgres
+    build: ./postgres
+    ports: 
+      - "5432:5432"
+
+  # Redis
+  redis: 
+    image: redis
+    ports: 
+      - "6379:6379"
